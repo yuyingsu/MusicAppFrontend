@@ -38,7 +38,7 @@ export default function(ComposedClass){
 
       warn = () => {
         if(this.props.userInfo){
-            alert('Session Timeout. Your session is about to expire in 1 mintue');
+            alert('Session Timeout. Your session is about to expire in 1 minute');
         }
       };
 
