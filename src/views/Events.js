@@ -33,7 +33,7 @@ function Events(props) {
   if(events){
     res = events['events'].map((event,idx) => (
       <Col xs="4" className="d-flex justify-content-center align-items-center">
-          <CardEvent key={idx} headline={event.headline} id={event.id} name={event.users[0]?event.users[0].username:"no one"} user_id = {event.users[0]?event.users[0].id:null}/>
+          <CardEvent key={idx} headline={event.headline} id={event.id} name={event.users[0]?event.users[0].username:"no one"} user_id = {event.users[0]?event.users[0].id:null} date = {event.date.substring(0,19)}/>
       </Col>));
   }
   console.log(count);
