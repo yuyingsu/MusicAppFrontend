@@ -16,6 +16,19 @@ const useStyles = makeStyles({
   },
 });
 
+const format = (dateString) =>{
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+  "Sun"
+  ];
+  var date = new Date(dateString);
+  var pm = date.getHours()>12?"pm":"am";
+  var hr = date.getHours()>12?date.getHours()-12:date.getHours();
+  return monthNames[date.getMonth()]+" "+date.getDate()+" • "+dayNames[date.getDay()]+" • "+hr+":"+date.getMinutes()+pm;
+}
+
 export default function CardEvent(props) {
   const classes = useStyles();
 
@@ -36,6 +49,10 @@ export default function CardEvent(props) {
           {props.headline}
           </Typography>
           }
+          <Typography gutterBottom variant="h7">
+          Date: {format(props.date)}
+          </Typography>
+          <br/>
           {props.user_id && <Typography gutterBottom variant="h7">
           Host By: <Link to={`/profile/${props.user_id}`}>{props.name}</Link>
           </Typography>}
