@@ -6,9 +6,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
@@ -96,20 +93,26 @@ function Event(props) {
     }
   }
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const format = (dateString) =>{
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+    "Sun"
+    ];
+    var date = new Date(dateString);
+    var pm = date.getHours()>12?"pm":"am";
+    var hr = date.getHours()>12?date.getHours()-12:date.getHours();
+    return monthNames[date.getMonth()]+" "+date.getDate()+" • "+dayNames[date.getDay()]+" • "+hr+":"+date.getMinutes()+pm;
+  }
 
   return(
   <div style={{marginTop:"78px", minHeight:"562px", color:"white"}} className="card" className={classes.root}>
         {event?<div style={{margin:"20px"}}>
             <div style={{fontSize:"90px", paddingTop:"80px", marginLeft:"50px", fontFamily:"Verdana", fontWeight:"bold"}}>{event.headline}</div>
             {users[0] && <div style={{fontSize:"18px", marginLeft:"50px"}}>Hosted by: {users[0].username}</div>}
-            <div style={{fontSize:"20px", marginTop:"20px", marginLeft:"50px"}}><EventIcon style={{marginBottom:"4px"}}/>{event.date.substring(0,16).replace("T"," ")}{"        "}<LocationCityIcon  style={{marginBottom:"4px"}}/>{address.streetName}{", "}{address.city}{", "}{address.state}{", "}{address.zip}</div>
+            <div style={{fontSize:"20px", marginTop:"20px", marginLeft:"50px"}}><EventIcon style={{marginBottom:"4px"}}/>{format(event.date.substring(0,19))}</div>
+            <div style={{fontSize:"20px", marginTop:"20px", marginLeft:"50px"}}><LocationCityIcon  style={{marginBottom:"4px"}}/>{address.streetName}{", "}{address.city}{", "}{address.state}{", "}{address.zip}</div>
             {userInfo && event.user_id!=userInfo.user_id && !attended?
             <Button variant="contained" color="primary" style={{marginTop:"30px", marginLeft:"50px"}} onClick={signUp}>Attend</Button>:
             <div style={{margin:"10px",marginLeft:"50px"}}>
@@ -122,27 +125,9 @@ function Event(props) {
             }
         </div>:null}
         {event && 
-        <div>
-        <div style={{marginTop:"20px"}}> <Button variant="primary" onClick={handleOpen} style={{fontSize:"12px",marginLeft:"55px", color:"white"}}>Click For More Details</Button></div>   
-        <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransitione
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-       >   
-       <Fade in={open}>
-          <div className={classes.paper} style={{width:"500px", height:"500px", fontSize:"25px"}}>
-              {event.description}
-          </div>
-        </Fade>
-       </Modal>
-       </div>
+             <div style={{fontSize:"18px", marginLeft:"70px"}}>
+                 {event.description}
+             </div>
        } 
   </div>
   );
