@@ -55,7 +55,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if(userInfo){
-    history.go(-1);
+    history.push('/');
     }
   }, [userInfo])
   
