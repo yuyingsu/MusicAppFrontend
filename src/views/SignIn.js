@@ -58,11 +58,14 @@ export default function SignIn() {
     history.push('/');
     }
   }, [userInfo])
+
+  useEffect(() => {
+    setSubmitted(true);
+  }, [error])
   
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(signin(username, password));
-    setSubmitted(true);
   }
 
   async function resendConfirmation(e) {
